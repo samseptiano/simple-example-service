@@ -6,17 +6,23 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
+import androidx.core.app.NotificationCompat
+
+
+
 
 class NotificationUI {
 
 	fun addNotification(context: Context, service: Service, timer: String, notifyId: Int) {
 		lateinit var notificationChannel: NotificationChannel
 		lateinit var notificationManager: NotificationManager
+
 		lateinit var builder: Notification.Builder
+		lateinit var builderOld: NotificationCompat.Builder
+
 		val channelId = notifyId.toString()
 		val description = "Timer Notification"
-		notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as
-				NotificationManager
+		notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
 		val notificationIntent = Intent(context, MainActivity::class.java)
 		val pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -46,11 +52,23 @@ class NotificationUI {
 					.addAction(R.drawable.ic_launcher_foreground, "Pause", Intent)
 					.addAction(R.drawable.ic_launcher_foreground, "Resume", IntentResume)
 					.addAction(R.drawable.ic_launcher_foreground, "Stop", IntentStop)
-
 					.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable
 							.ic_launcher_background)).setContentIntent(pendingIntent)
+			service.startForeground(notifyId, builder.build())
+
 		}
-		service.startForeground(notifyId, builder.build())
+		else{
+			builderOld = NotificationCompat.Builder(context)
+					.setOngoing(true)
+					.setSmallIcon(R.drawable.ic_launcher_foreground) //set icon for notification
+					.setContentTitle(timer) //set title of notification
+					.addAction(R.drawable.ic_launcher_foreground, "Pause", Intent)
+					.addAction(R.drawable.ic_launcher_foreground, "Resume", IntentResume)
+					.addAction(R.drawable.ic_launcher_foreground, "Stop", IntentStop)
+					.setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable
+							.ic_launcher_background)).setContentIntent(pendingIntent)
+			service.startForeground(notifyId, builderOld.build())
+		}
 
 	}
 
