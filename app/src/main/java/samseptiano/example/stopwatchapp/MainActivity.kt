@@ -134,7 +134,6 @@ class MainActivity : AppCompatActivity() {
 		}
 
 	}
-
 	private fun intentToService(running:Boolean, wasRunning:Boolean){
 		val intent = Intent()
 		intent.action = "samseptiano.example.stopwatchapp"
