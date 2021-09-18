@@ -1,2 +1,2 @@
 # simple-example-service
-simple background service with notification (stopwatch app)
+simple source code of background service with notification with kotlin for android  (stopwatch app)
