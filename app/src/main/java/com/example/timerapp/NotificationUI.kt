@@ -1,4 +1,4 @@
-package samseptiano.example.stopwatchapp
+package com.example.timerapp
 
 import android.app.*
 import android.content.Context
@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
+import com.example.timerapp.MainActivity
+import com.example.timerapp.R
 
 class NotificationUI {
 

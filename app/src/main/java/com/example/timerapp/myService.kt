@@ -1,4 +1,4 @@
-package samseptiano.example.stopwatchapp
+package com.example.timerapp
 
 import android.app.*
 import android.content.BroadcastReceiver
@@ -52,14 +52,14 @@ class myService() : Service() {
 				time = "00:00:00"
 				seconds = 0
 				onDestroy()
-				notification.addNotification(this@myService,this@myService,time,NOTIFICATIONID)
+				notification.cancelNotification(this@myService,NOTIFICATIONID)
 			}
 
 			sendIntent(time,seconds,running,wasRunning)
 		}
 
 		val intentFilter = IntentFilter()
-		intentFilter.addAction("samseptiano.example.stopwatchapp")
+		intentFilter.addAction("com.example.timerapp")
 		registerReceiver(broadcastReceiver, intentFilter)
 
 		return START_STICKY
@@ -125,7 +125,7 @@ class myService() : Service() {
 
 	fun sendIntent(time:String, seconds:Int, running:Boolean,wasRunning:Boolean){
 		val intent1 = Intent()
-		intent1.action = "samseptiano.example.stopwatchapp"
+		intent1.action = "com.example.timerapp"
 		intent1.putExtra("NUMBER", time)
 		intent1.putExtra("SECONDS", seconds)
 		intent1.putExtra("RUNNING", running)
