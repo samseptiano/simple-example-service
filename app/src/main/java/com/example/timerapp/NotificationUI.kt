@@ -10,11 +10,11 @@ import com.example.timerapp.MainActivity
 import com.example.timerapp.R
 
 class NotificationUI {
-
+	lateinit var notificationChannel: NotificationChannel
+	lateinit var notificationManager: NotificationManager
+	lateinit var builder: Notification.Builder
 	fun addNotification(context: Context, service: Service, timer: String, notifyId: Int) {
-		lateinit var notificationChannel: NotificationChannel
-		lateinit var notificationManager: NotificationManager
-		lateinit var builder: Notification.Builder
+
 		val channelId = notifyId.toString()
 		val description = "Timer Notification"
 		notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as
@@ -56,10 +56,10 @@ class NotificationUI {
 
 	}
 
-	fun cancelNotification(context: Context, notifyId: Int) {
-		var ns = Context.NOTIFICATION_SERVICE;
-		val nMgr = context.getSystemService(ns) as NotificationManager
-//		nMgr.cancel(notifyId)
-		nMgr.cancelAll()
+	fun cancelNotification(context: Context,service: Service, notifyId: Int) {
+		service.stopForeground(true);
+		notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as
+				NotificationManager
+		notificationManager.cancelAll()
 	}
 }
