@@ -36,7 +36,7 @@ class myService() : Service() {
 
 
 	override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-		Toast.makeText(this, "Notification Service started by user.", Toast.LENGTH_LONG).show()
+//		Toast.makeText(this, "Notification Service started by user.", Toast.LENGTH_LONG).show()
 
 		if (intent != null) {
 			if (intent.getAction().equals("PAUSE")) {
@@ -52,7 +52,7 @@ class myService() : Service() {
 				time = "00:00:00"
 				seconds = 0
 				onDestroy()
-				notification.cancelNotification(this@myService,NOTIFICATIONID)
+				notification.cancelNotification(this@myService,this, NOTIFICATIONID)
 			}
 
 			sendIntent(time,seconds,running,wasRunning)
@@ -115,6 +115,9 @@ class myService() : Service() {
 					Log.d("timer: ", time)
 
 					notification.addNotification(this@myService,this@myService,time,NOTIFICATIONID)
+					sendIntent(time,seconds,running,wasRunning)
+				}
+				else{
 					sendIntent(time,seconds,running,wasRunning)
 				}
 				handler.postDelayed(this, 1000)
