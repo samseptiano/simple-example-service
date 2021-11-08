@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     var seconds = 0
     var running = false
     var wasRunning = false
+    var lastTime = "00:00:00"
 
 
 
@@ -35,11 +36,13 @@ class MainActivity : AppCompatActivity() {
             val running = intent.getBooleanExtra("RUNNING", true)
             val wasrunning = intent.getBooleanExtra("WASRUNNING", true)
             val seconds = intent.getIntExtra("SECONDS", 0)
-            timer.setText(s1)
 
             this@MainActivity.running = running
             this@MainActivity.wasRunning = wasrunning
             this@MainActivity.seconds = seconds
+            this@MainActivity.lastTime = s1?:"00:00:00"
+            timer.setText(s1)
+
 
             if (wasRunning) {
                 this@MainActivity.running = true;
@@ -66,18 +69,23 @@ class MainActivity : AppCompatActivity() {
         val intentFilter = IntentFilter()
         intentFilter.addAction("com.example.timerapp")
         registerReceiver(broadcastReceiver, intentFilter)
+        timer.setText(lastTime)
+
+
     }
 
     override fun onPause() {
         wasRunning = running;
         running = false;
         button?.text = "Resume"
+        lastTime = timer.text.toString()
         super.onPause()
 
     }
 
     override fun onResume() {
         super.onResume()
+
         if (wasRunning) {
             running = true;
             button?.text = "Pause"
@@ -116,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkRunningService(){
         if(isMyServiceRunning(myService::class.java)){
             intent.action = "com.example.timerapp"
-            intent.putExtra("NUMBER", timer.text.toString())
+            intent.putExtra("NUMBER", lastTime)
             intent.putExtra("SECONDS", seconds)
             intent.putExtra("RUNNING", false)
             intent.putExtra("WASRUNNING", false)
